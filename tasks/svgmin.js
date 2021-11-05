@@ -2,19 +2,18 @@
 const chalk = require('chalk');
 const prettyBytes = require('pretty-bytes');
 const logSymbols = require('log-symbols');
-const SVGO = require('svgo');
+const {optimize} = require('svgo');
 
 module.exports = grunt => {
 	grunt.registerMultiTask('svgmin', 'Minify SVG', async function () {
 		const done = this.async();
-		const svgo = new SVGO(this.options());
 		let totalSavedBytes = 0;
 
 		await Promise.all(this.files.map(async element => {
 			const sourcePath = element.src[0];
 			const sourceSvg = grunt.file.read(sourcePath);
 
-			const result = await svgo.optimize(sourceSvg, {path: sourcePath});
+			const result = optimize(sourceSvg, {path: sourcePath});
 			if (result.error) {
 				grunt.warn(`${sourcePath}: ${result.error}`);
 				return;

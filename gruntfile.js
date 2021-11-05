@@ -12,10 +12,8 @@ module.exports = grunt => {
 				options: {
 					plugins: [
 						{
-							removeViewBox: false
-						},
-						{
-							convertPathData: {
+							name: "convertPathData",
+							params: {
 								straightCurves: false
 							}
 						}
